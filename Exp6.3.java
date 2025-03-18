@@ -3,6 +3,67 @@ To develop a Java program that processes a large dataset of products using Strea
   - Find the most expensive product in each category
   - Calculate the average price of all products
 
+  SOLUTION:
+import java.util.*;
+import java.util.stream.Collectors;
+
+class Product {
+    String name;
+    String category;
+    double price;
+
+    public Product(String name, String category, double price) {
+        this.name = name;
+        this.category = category;
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return name + " ($" + price + ")";
+    }
+}
+
+public class ProductProcessor {
+    public static void main(String[] args) {
+        List<Product> products = Arrays.asList(
+            new Product("Laptop", "Electronics", 1200),
+            new Product("Phone", "Electronics", 800),
+            new Product("TV", "Electronics", 1500),
+            new Product("Shirt", "Clothing", 50),
+            new Product("Jeans", "Clothing", 70),
+            new Product("Blender", "Appliances", 200),
+            new Product("Toaster", "Appliances", 100)
+        );
+
+        Map<String, List<Product>> categorizedProducts = products.stream()
+            .collect(Collectors.groupingBy(p -> p.category));
+
+        System.out.println("Products grouped by category:");
+        categorizedProducts.forEach((category, productList) -> 
+            System.out.println(category + ": " + productList)
+        );
+
+        Map<String, Optional<Product>> mostExpensiveInCategory = products.stream()
+            .collect(Collectors.groupingBy(
+                p -> p.category,
+                Collectors.maxBy(Comparator.comparingDouble(p -> p.price))
+            ));
+
+        System.out.println("\nMost expensive product in each category:");
+        mostExpensiveInCategory.forEach((category, product) -> 
+            System.out.println(category + ": " + product.orElse(null))
+        );
+
+        double avgPrice = products.stream()
+            .mapToDouble(p -> p.price)
+            .average()
+            .orElse(0);
+
+        System.out.println("\nAverage price of all products: $" + avgPrice);
+    }
+}
+
 
 Instruction
 Step 1: Create the Product Class
