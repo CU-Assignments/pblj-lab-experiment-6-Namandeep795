@@ -1,4 +1,42 @@
 To implement a Java program that sorts a list of Employee objects (based on name, age, and salary) using lambda expressions and stream operations to demonstrate efficient data processing.
+SOLUTION:
+import java.util.*;
+
+class Employee {
+    String name;
+    int age;
+    double salary;
+
+    Employee(String name, int age, double salary) {
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+    }
+
+    @Override
+    public String toString() {
+        return name + " - Age: " + age + ", Salary: " + salary;
+    }
+}
+
+public class EmployeeSort {
+    public static void main(String[] args) {
+        List<Employee> employees = Arrays.asList(
+            new Employee("Ayush", 20, 90000),
+            new Employee("Vinay", 22, 100000),
+            new Employee("Prakul", 23, 70000)
+        );
+
+        employees.sort(Comparator.comparing(emp -> emp.name));
+        System.out.println("Sorted by Name: " + employees);
+
+        employees.sort(Comparator.comparingInt(emp -> emp.age));
+        System.out.println("Sorted by Age: " + employees);
+
+        employees.sort(Comparator.comparingDouble(emp -> emp.salary));
+        System.out.println("Sorted by Salary: " + employees);
+    }
+}
 
 Step 1: Create the Employee Class
 -Define an Employee class with the following attributes:
